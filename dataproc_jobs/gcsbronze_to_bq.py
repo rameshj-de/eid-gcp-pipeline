@@ -23,5 +23,6 @@ df=df.dropDuplicates()
 # Write to BigQuery
 df.write.format("bigquery") \
         .option("table","retail-proj-1.bronze_insu.eid_healthcare") \
+        .option("temporaryGcsBucket","insurance-28022026") \
         .mode("overwrite") \
         .save()

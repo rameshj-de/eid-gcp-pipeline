@@ -58,7 +58,18 @@ with DAG(
 		},
 	)
 
-	# 4. 
+	# 4. Transform --> BigQuery Job
+	gcsbronze_to_bq=DataprocSubmitJobOperator(
+		task_id="gcsbronge_to_bq",
+		project_id=PROJECT_ID,
+		region=REGION,
+		job={
+			"placement":{"cluster_name":CLUSTER_NAME},
+			"pyspark_job":{
+				"main_python_file_uri":"gs://insurance-28022026/scripts/gcsbronze_to_bq.py"
+			},
+		},
+	)
 
 	# 5. Delete Cluster (Very Important)
 	delete_cluster=DataprocDeleteClusterOperator(
@@ -69,5 +80,5 @@ with DAG(
 		trigger_rule="all_done", #delete even if job fails
 	)
 
-	wait_for_file >> create_cluster >> raw_to_parquet >> delete_cluster
+	wait_for_file >> create_cluster >> raw_to_parquet >> gcsbronze_to_bq >> delete_cluster
 
