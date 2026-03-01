@@ -58,7 +58,9 @@ with DAG(
 		},
 	)
 
-	# 4. Delete Cluster (Very Important)
+	# 4. 
+
+	# 5. Delete Cluster (Very Important)
 	delete_cluster=DataprocDeleteClusterOperator(
 		task_id="delete_cluster",
 		project_id=PROJECT_ID,
